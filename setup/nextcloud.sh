@@ -37,7 +37,7 @@ nextcloud_hash=TBD
 
 # Always ensure the versions are supported, see https://apps.nextcloud.com/apps/contacts
 contacts_ver=8.8.0
-contacts_hash=TBD
+contacts_hash=7abcc5d9fe1f38dc3a8ac68b0d479255e99ef82a
 
 # Always ensure the versions are supported, see https://apps.nextcloud.com/apps/calendar
 calendar_ver=6.5.4
@@ -253,23 +253,23 @@ if [ ! -d /usr/local/lib/owncloud/ ] || [[ ! ${CURRENT_NEXTCLOUD_VER} =~ ^$nextc
 			CURRENT_NEXTCLOUD_VER="28.0.14"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^28 ]]; then
-			InstallNextcloud 29.0.16 TBD 6.0.7 TBD 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			InstallNextcloud 29.0.16 TBD 6.0.7 babb779107b029c30ad20b81da33b4f95e1136ff 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
 			CURRENT_NEXTCLOUD_VER="29.0.16"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^29 ]]; then
-			InstallNextcloud 30.0.17 TBD 7.3.19 TBD 5.5.23.0 TBD 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			InstallNextcloud 30.0.17 TBD 7.3.19 bd680b3b96f09d013ff3a12eccb352b83f3bcd51 5.5.23.0 TBD 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
 			CURRENT_NEXTCLOUD_VER="30.0.17"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^30 ]]; then
-			InstallNextcloud 31.0.14 TBD 7.3.19 TBD 5.5.23 TBD 4.0.0 TBD
+			InstallNextcloud 31.0.14 TBD 7.3.19 bd680b3b96f09d013ff3a12eccb352b83f3bcd51 5.5.23 TBD 4.0.0 TBD
 			CURRENT_NEXTCLOUD_VER="31.0.14"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^31 ]]; then
-			InstallNextcloud 32.0.10 TBD 8.3.19 TBD 6.5.4 TBD 4.0.0 TBD
+			InstallNextcloud 32.0.10 TBD 8.3.19 8ea88b7107d2d5855d918d34f60036ac92575a09 6.5.4 TBD 4.0.0 TBD
 			CURRENT_NEXTCLOUD_VER="32.0.10"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^32 ]]; then
-			InstallNextcloud 33.0.7 TBD 8.8.0 TBD 6.5.4 TBD 4.0.0 TBD
+			InstallNextcloud 33.0.7 TBD 8.8.0 7abcc5d9fe1f38dc3a8ac68b0d479255e99ef82a 6.5.4 TBD 4.0.0 TBD
 			CURRENT_NEXTCLOUD_VER="33.0.7"
 		fi
 	fi
