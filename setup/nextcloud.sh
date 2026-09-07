@@ -36,7 +36,7 @@ nextcloud_hash=TBD
 # find by running: curl -sL <url> | sha1sum
 
 # Always ensure the versions are supported, see https://apps.nextcloud.com/apps/contacts
-contacts_ver=8.7.7
+contacts_ver=8.8.0
 contacts_hash=TBD
 
 # Always ensure the versions are supported, see https://apps.nextcloud.com/apps/calendar
@@ -249,27 +249,27 @@ if [ ! -d /usr/local/lib/owncloud/ ] || [[ ! ${CURRENT_NEXTCLOUD_VER} =~ ^$nextc
 		fi
         ## TBD means I still need to grab the sha1 for each
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^27 ]]; then
-			InstallNextcloud 28.0.14 TBD 5.5.4 c4e3f2183a0088b829f8aa1b3af1f87c9a4c46a2 4.7.20 TBD 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			InstallNextcloud 28.0.14 TBD 5.5.4 c4e3f2183a0088b829f8aa1b3af1f87c9a4c46a2 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
 			CURRENT_NEXTCLOUD_VER="28.0.14"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^28 ]]; then
-			InstallNextcloud 29.0.16 TBD 6.0.0 TBD 4.7.20 TBD 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			InstallNextcloud 29.0.16 TBD 6.0.7 TBD 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
 			CURRENT_NEXTCLOUD_VER="29.0.16"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^29 ]]; then
-			InstallNextcloud 30.0.17 TBD 6.1.0 TBD 5.0.0 TBD 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			InstallNextcloud 30.0.17 TBD 7.3.19 TBD 5.5.23.0 TBD 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
 			CURRENT_NEXTCLOUD_VER="30.0.17"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^30 ]]; then
-			InstallNextcloud 31.0.14 TBD 7.0.0 TBD 5.1.0 TBD 4.0.0 TBD
+			InstallNextcloud 31.0.14 TBD 7.3.19 TBD 5.5.23 TBD 4.0.0 TBD
 			CURRENT_NEXTCLOUD_VER="31.0.14"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^31 ]]; then
-			InstallNextcloud 32.0.10 TBD 8.7.0 TBD 6.0.0 TBD 4.0.0 TBD
+			InstallNextcloud 32.0.10 TBD 8.3.19 TBD 6.5.4 TBD 4.0.0 TBD
 			CURRENT_NEXTCLOUD_VER="32.0.10"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^32 ]]; then
-			InstallNextcloud 33.0.7 TBD 8.7.0 TBD 6.5.0 TBD 4.0.0 TBD
+			InstallNextcloud 33.0.7 TBD 8.8.0 TBD 6.5.4 TBD 4.0.0 TBD
 			CURRENT_NEXTCLOUD_VER="33.0.7"
 		fi
 	fi
