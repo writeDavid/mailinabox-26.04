@@ -21,8 +21,8 @@ echo "Installing Nextcloud (contacts/calendar)..."
 #   we automatically install intermediate versions as needed.
 # * The hash is the SHA1 hash of the ZIP package, which you can find by just running this script and
 #   copying it from the error message when it doesn't match what is below.
-nextcloud_ver=27.1.11
-nextcloud_hash=9f30c01a021c2e5a9e7baff119955afb3c552ebc
+nextcloud_ver=34.0.3
+nextcloud_hash=TBD
 
 # Nextcloud apps
 # --------------
@@ -36,16 +36,16 @@ nextcloud_hash=9f30c01a021c2e5a9e7baff119955afb3c552ebc
 # find by running: curl -sL <url> | sha1sum
 
 # Always ensure the versions are supported, see https://apps.nextcloud.com/apps/contacts
-contacts_ver=5.5.4
-contacts_hash=c4e3f2183a0088b829f8aa1b3af1f87c9a4c46a2
+contacts_ver=8.7.7
+contacts_hash=TBD
 
 # Always ensure the versions are supported, see https://apps.nextcloud.com/apps/calendar
-calendar_ver=4.7.20
-calendar_hash=12d876904e227156e39ca4335b18481b42a6d00f
+calendar_ver=6.5.4
+calendar_hash=TBD
 
 # Always ensure the versions are supported, see https://apps.nextcloud.com/apps/user_external
-user_external_ver=3.4.0
-user_external_hash=7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+user_external_ver=4.0.0
+user_external_hash=TBD
 
 # Developer advice (test plan)
 # ----------------------------
@@ -242,6 +242,35 @@ if [ ! -d /usr/local/lib/owncloud/ ] || [[ ! ${CURRENT_NEXTCLOUD_VER} =~ ^$nextc
 		if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^25 ]]; then
 			InstallNextcloud 26.0.13 d5c10b650e5396d5045131c6d22c02a90572527c 5.5.3 b234ab410480a4106176a28f39c9b27f471d0473 4.7.6 cf8e68e7d945ee71933f5bb71a969faf152da55c 3.3.0 280d24eb2a6cb56b4590af8847f925c28d8d853e
 			CURRENT_NEXTCLOUD_VER="26.0.13"
+		fi
+        if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^26 ]]; then
+			InstallNextcloud 27.1.11 9f30c01a021c2e5a9e7baff119955afb3c552ebc 5.5.4 c4e3f2183a0088b829f8aa1b3af1f87c9a4c46a2 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			CURRENT_NEXTCLOUD_VER="27.1.11"
+		fi
+        ## TBD means I still need to grab the sha1 for each
+        if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^27 ]]; then
+			InstallNextcloud 28.0.14 TBD 5.5.4 c4e3f2183a0088b829f8aa1b3af1f87c9a4c46a2 4.7.20 TBD 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			CURRENT_NEXTCLOUD_VER="28.0.14"
+		fi
+        if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^28 ]]; then
+			InstallNextcloud 29.0.16 TBD 6.0.0 TBD 4.7.20 TBD 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			CURRENT_NEXTCLOUD_VER="29.0.16"
+		fi
+        if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^29 ]]; then
+			InstallNextcloud 30.0.17 TBD 6.1.0 TBD 5.0.0 TBD 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			CURRENT_NEXTCLOUD_VER="30.0.17"
+		fi
+        if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^30 ]]; then
+			InstallNextcloud 31.0.14 TBD 7.0.0 TBD 5.1.0 TBD 4.0.0 TBD
+			CURRENT_NEXTCLOUD_VER="31.0.14"
+		fi
+        if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^31 ]]; then
+			InstallNextcloud 32.0.10 TBD 8.7.0 TBD 6.0.0 TBD 4.0.0 TBD
+			CURRENT_NEXTCLOUD_VER="32.0.10"
+		fi
+        if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^32 ]]; then
+			InstallNextcloud 33.0.7 TBD 8.7.0 TBD 6.5.0 TBD 4.0.0 TBD
+			CURRENT_NEXTCLOUD_VER="33.0.7"
 		fi
 	fi
 
