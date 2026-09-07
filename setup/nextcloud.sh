@@ -22,7 +22,7 @@ echo "Installing Nextcloud (contacts/calendar)..."
 # * The hash is the SHA1 hash of the ZIP package, which you can find by just running this script and
 #   copying it from the error message when it doesn't match what is below.
 nextcloud_ver=34.0.3
-nextcloud_hash=TBD
+nextcloud_hash=58445c43641b182c43963d7b200e893c92b6b16a
 
 # Nextcloud apps
 # --------------
@@ -249,27 +249,27 @@ if [ ! -d /usr/local/lib/owncloud/ ] || [[ ! ${CURRENT_NEXTCLOUD_VER} =~ ^$nextc
 		fi
         ## TBD means I still need to grab the sha1 for each
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^27 ]]; then
-			InstallNextcloud 28.0.14 TBD 5.5.4 c4e3f2183a0088b829f8aa1b3af1f87c9a4c46a2 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			InstallNextcloud 28.0.14 8a9edcfd26d318eb7d1cfa44d69796f2d1098a80 5.5.4 c4e3f2183a0088b829f8aa1b3af1f87c9a4c46a2 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
 			CURRENT_NEXTCLOUD_VER="28.0.14"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^28 ]]; then
-			InstallNextcloud 29.0.16 TBD 6.0.7 babb779107b029c30ad20b81da33b4f95e1136ff 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			InstallNextcloud 29.0.16 ceb3014aaddc70d3074d2c69bc6afc76eb1aeff0 6.0.7 babb779107b029c30ad20b81da33b4f95e1136ff 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
 			CURRENT_NEXTCLOUD_VER="29.0.16"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^29 ]]; then
-			InstallNextcloud 30.0.17 TBD 7.3.19 bd680b3b96f09d013ff3a12eccb352b83f3bcd51 5.5.23 9ecfdf35f5de387d3a4db6e1f41920434173c20f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
+			InstallNextcloud 30.0.17 0494197f1984ce8a2f83084c0759a24d48474017 7.3.19 bd680b3b96f09d013ff3a12eccb352b83f3bcd51 5.5.23 9ecfdf35f5de387d3a4db6e1f41920434173c20f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
 			CURRENT_NEXTCLOUD_VER="30.0.17"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^30 ]]; then
-			InstallNextcloud 31.0.14 TBD 7.3.19 bd680b3b96f09d013ff3a12eccb352b83f3bcd51 5.5.23 9ecfdf35f5de387d3a4db6e1f41920434173c20f 4.0.0 214497dd8691f279ba3740797c565310f0793054
+			InstallNextcloud 31.0.14 a891fede2cd4cb3347a406da3fb4f99cd62c89ce 7.3.19 bd680b3b96f09d013ff3a12eccb352b83f3bcd51 5.5.23 9ecfdf35f5de387d3a4db6e1f41920434173c20f 4.0.0 214497dd8691f279ba3740797c565310f0793054
 			CURRENT_NEXTCLOUD_VER="31.0.14"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^31 ]]; then
-			InstallNextcloud 32.0.10 TBD 8.3.19 8ea88b7107d2d5855d918d34f60036ac92575a09 6.5.4 061f871029c2f735198443bef1bfbe4e8b2e7cba 4.0.0 214497dd8691f279ba3740797c565310f0793054
+			InstallNextcloud 32.0.10 7eec94a2310238858298ae9c0fee3e4cde4233e9 8.3.19 8ea88b7107d2d5855d918d34f60036ac92575a09 6.5.4 061f871029c2f735198443bef1bfbe4e8b2e7cba 4.0.0 214497dd8691f279ba3740797c565310f0793054
 			CURRENT_NEXTCLOUD_VER="32.0.10"
 		fi
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^32 ]]; then
-			InstallNextcloud 33.0.7 TBD 8.8.0 7abcc5d9fe1f38dc3a8ac68b0d479255e99ef82a 6.5.4 061f871029c2f735198443bef1bfbe4e8b2e7cba 4.0.0 214497dd8691f279ba3740797c565310f0793054
+			InstallNextcloud 33.0.7 89a880ee00e95c661400528f18b06526fb494f3a 8.8.0 7abcc5d9fe1f38dc3a8ac68b0d479255e99ef82a 6.5.4 061f871029c2f735198443bef1bfbe4e8b2e7cba 4.0.0 214497dd8691f279ba3740797c565310f0793054
 			CURRENT_NEXTCLOUD_VER="33.0.7"
 		fi
 	fi
