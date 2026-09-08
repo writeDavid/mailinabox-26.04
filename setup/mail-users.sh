@@ -35,11 +35,11 @@ sed -i "s/#\(\!include auth-sql.conf.ext\)/\1/"  /etc/dovecot/conf.d/10-auth.con
 # Specify how the database is to be queried for user authentication (passdb)
 # and where user mailboxes are stored (userdb).
 cat > /etc/dovecot/conf.d/auth-sql.conf.ext << EOF;
-passdb {
+passdb sql {
   driver = sql
   args = /etc/dovecot/dovecot-sql.conf.ext
 }
-userdb {
+userdb sql {
   driver = sql
   args = /etc/dovecot/dovecot-sql.conf.ext
 }
