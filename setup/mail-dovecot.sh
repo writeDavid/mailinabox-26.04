@@ -62,31 +62,18 @@ tools/editconf.py /usr/lib/sysctl.d/50-default.conf \
 hide_output systemctl restart systemd-sysctl
 hide_output sysctl --system
 
-# Set the location where we'll store user mailboxes. '%d' is the domain name and '%n' is the
-# username part of the user's email address. We'll ensure that no bad domains or email addresses
-# are created within the management daemon. We will activate the quota plugin here as well.
-tools/editconf.py /etc/dovecot/conf.d/10-mail.conf \
-    mail_driver=maildir \
-    mail_path="$STORAGE_ROOT/mail/mailboxes/%{user|domain}/%{user|username}" \
-	mail_privileged_group=mail \
-	first_valid_uid=0 \
-    mail_plugins { \
-        quota = yes \
-    }    
-    
 
-# Create, subscribe, and mark as special folders: INBOX, Drafts, Sent, Trash, Spam and Archive.
+# Copy in preconfigured dovecot configuration files
+cp conf/dovecot-10-mail.conf /etc/dovecot/conf.d/10-mail.conf
 cp conf/dovecot-mailboxes.conf /etc/dovecot/conf.d/15-mailboxes.conf
+cp conf/dovecot-20-imap.conf /etc/dovecot/conf.d/20-imap.conf
+cp conf/dovecot-20-lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
 
-# IMAP Plugin Activation & Format for IMAP IDLE and MAX Connections
-tools/editconf.py /etc/dovecot/conf.d/20-imap.conf \
-    protocol imap { \
-        mail_plugins { \
-            imap_quota = yes \
-        } \
-        imap_idle_notify_interval="4 mins" \
-        mail_max_userip_connections = 40 \
-    } \
+# Set the location where we'll store user mailboxes. '%{user|domain}' is the domain name and '%{user|username}' is the
+# username part of the user's email address. We'll ensure that no bad domains or email addresses
+# are created within the management daemon.
+tools/editconf.py /etc/dovecot/conf.d/10-mail.conf \
+    mail_path="$STORAGE_ROOT/mail/mailboxes/%{user|domain}/%{user|username}"
 
 # configure stuff for quota support
 if ! grep -q "quota_status_success = DUNNO" /etc/dovecot/conf.d/90-quota.conf; then
@@ -150,8 +137,6 @@ tools/editconf.py /etc/dovecot/conf.d/20-pop3.conf \
 # would communicate (see the Postfix setup script for the corresponding
 # setting also commented out).
 #
-# Also increase the number of allowed IMAP connections per mailbox because
-# we all have so many devices lately.
 cat > /etc/dovecot/conf.d/99-local.conf << EOF;
 service lmtp {
   #unix_listener /var/spool/postfix/private/dovecot-lmtp {
@@ -180,11 +165,6 @@ tools/editconf.py /etc/dovecot/conf.d/15-lda.conf \
 	"postmaster_address=postmaster@$PRIMARY_HOSTNAME"
 
 # ### Sieve
-
-# Enable the Dovecot sieve plugin which let's users run scripts that process
-# mail as it comes in.
-sed -i "s/#mail_plugins = .*/mail_plugins = \$mail_plugins sieve/" /etc/dovecot/conf.d/20-lmtp.conf
-
 # Configure sieve. We'll create a global script that moves mail marked
 # as spam by Spamassassin into the user's Spam folder.
 #
