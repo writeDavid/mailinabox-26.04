@@ -244,9 +244,9 @@ dd if=/dev/random of=/dev/urandom bs=1 count=32 2> /dev/null
 
 # This is supposedly sufficient. But because we're not sure if hardware entropy
 # is really any good on virtualized systems, we'll also seed from Ubuntu's
-# pollinate servers:
+# pollinate servers, using the pollinate user:
 
-pollinate  -q -r
+su pollinate /usr/bin/pollinate -q -r
 
 # Between these two, we really ought to be all set.
 
