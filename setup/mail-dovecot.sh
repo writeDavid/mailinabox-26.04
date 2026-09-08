@@ -54,8 +54,13 @@ tools/editconf.py /etc/dovecot/conf.d/10-master.conf \
 # See http://www.dovecot.org/pipermail/dovecot/2013-March/088834.html.
 # A reboot is required for this to take effect (which we don't do as
 # as a part of setup). Test with `cat /proc/sys/fs/inotify/max_user_instances`.
-tools/editconf.py /etc/sysctl.conf \
+# We changed where this writes to
+tools/editconf.py /usr/lib/sysctl.d/50-default.conf \
 	fs.inotify.max_user_instances=1024
+
+# Restart sysctl, then apply the change to the system
+hide_output systemctl restart systemd-sysctl
+hide_output sysctl --system
 
 # Set the location where we'll store user mailboxes. '%d' is the domain name and '%n' is the
 # username part of the user's email address. We'll ensure that no bad domains or email addresses
