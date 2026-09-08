@@ -76,19 +76,20 @@ tools/editconf.py /etc/dovecot/conf.d/10-mail.conf \
     mail_path="$STORAGE_ROOT/mail/mailboxes/%{user|domain}/%{user|username}"
 
 # configure stuff for quota support
-if ! grep -q "quota_status_success = DUNNO" /etc/dovecot/conf.d/90-quota.conf; then
+if ! grep -q "quota_status_success = OK" /etc/dovecot/conf.d/90-quota.conf; then
     cat > /etc/dovecot/conf.d/90-quota.conf << EOF;
 
-quota = maildir
-quota_grace = 10%%
-
-quota_status_success = DUNNO
-quota_status_nouser = DUNNO
-quota_status_overquota = "522 5.2.2 Mailbox is full"
+quota maildir {
+    quota_storage_grace = 100M
+}
 
 service quota-status {
+    quota_status_success = "OK"
+    quota_status_nouser = "REJECT Unknown user"
+    quota_status_overquota = "522 5.2.2 Mailbox is full"
+    
     executable = quota-status -p postfix
-    inet_listener {
+    inet_listener quota-status {
         port = 12340
     }
 }
