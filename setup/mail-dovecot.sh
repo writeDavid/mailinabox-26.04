@@ -84,7 +84,7 @@ quota maildir {
 }
 
 service quota-status {
-    quota_status_success = "OK"
+    quota_status_success = OK
     quota_status_nouser = "REJECT Unknown user"
     quota_status_overquota = "522 5.2.2 Mailbox is full"
     
