@@ -64,32 +64,40 @@ hide_output sysctl --system
 
 # Set the location where we'll store user mailboxes. '%d' is the domain name and '%n' is the
 # username part of the user's email address. We'll ensure that no bad domains or email addresses
-# are created within the management daemon.
+# are created within the management daemon. We will activate the quota plugin here as well.
 tools/editconf.py /etc/dovecot/conf.d/10-mail.conf \
     mail_driver=maildir \
     mail_path="$STORAGE_ROOT/mail/mailboxes/%{user|domain}/%{user|username}" \
 	mail_privileged_group=mail \
-	first_valid_uid=0
+	first_valid_uid=0 \
+    mail_plugins { \
+        quota = yes \
+    }    
+    
 
 # Create, subscribe, and mark as special folders: INBOX, Drafts, Sent, Trash, Spam and Archive.
 cp conf/dovecot-mailboxes.conf /etc/dovecot/conf.d/15-mailboxes.conf
-sed -i "s/#mail_plugins =\(.*\)/mail_plugins =\1 \$mail_plugins quota/" /etc/dovecot/conf.d/10-mail.conf
-if ! grep -q "mail_plugins.* imap_quota" /etc/dovecot/conf.d/20-imap.conf; then
-  sed -i "s/\(mail_plugins =.*\)/\1\n  mail_plugins = \$mail_plugins imap_quota/" /etc/dovecot/conf.d/20-imap.conf
-fi
+
+# IMAP Plugin Activation & Format for IMAP IDLE and MAX Connections
+tools/editconf.py /etc/dovecot/conf.d/20-imap.conf \
+    protocol imap { \
+        mail_plugins { \
+            imap_quota = yes \
+        } \
+        imap_idle_notify_interval="4 mins" \
+        mail_max_userip_connections = 40 \
+    } \
 
 # configure stuff for quota support
 if ! grep -q "quota_status_success = DUNNO" /etc/dovecot/conf.d/90-quota.conf; then
     cat > /etc/dovecot/conf.d/90-quota.conf << EOF;
-plugin {
-  quota = maildir
 
-  quota_grace = 10%%
+quota = maildir
+quota_grace = 10%%
 
-  quota_status_success = DUNNO
-  quota_status_nouser = DUNNO
-  quota_status_overquota = "522 5.2.2 Mailbox is full"
-}
+quota_status_success = DUNNO
+quota_status_nouser = DUNNO
+quota_status_overquota = "522 5.2.2 Mailbox is full"
 
 service quota-status {
     executable = quota-status -p postfix
@@ -125,16 +133,6 @@ tools/editconf.py /etc/dovecot/conf.d/10-ssl.conf \
 # are made available (IMAPS on port 993; POP3S on port 995).
 sed -i "s/#port = 143/port = 0/" /etc/dovecot/conf.d/10-master.conf
 sed -i "s/#port = 110/port = 0/" /etc/dovecot/conf.d/10-master.conf
-
-# Make IMAP IDLE slightly more efficient. By default, Dovecot says "still here"
-# every two minutes. With K-9 mail, the bandwidth and battery usage due to
-# this are minimal. But for good measure, let's go to 4 minutes to halve the
-# bandwidth and number of times the device's networking might be woken up.
-# The risk is that if the connection is silent for too long it might be reset
-# by a peer. See [#129](https://github.com/mail-in-a-box/mailinabox/issues/129)
-# and [How bad is IMAP IDLE](http://razor.occams.info/blog/2014/08/09/how-bad-is-imap-idle/).
-tools/editconf.py /etc/dovecot/conf.d/20-imap.conf \
-	imap_idle_notify_interval="4 mins"
 
 # Set POP3 UIDL.
 # UIDLs are used by POP3 clients to keep track of what messages they've downloaded.
@@ -173,9 +171,6 @@ service imap-login {
     address = 127.0.0.1
     port = 143
   }
-}
-protocol imap {
-  mail_max_userip_connections = 40
 }
 EOF
 
