@@ -184,14 +184,12 @@ tools/editconf.py /etc/dovecot/conf.d/15-lda.conf \
 # * `sieve_dir`: Directory for :personal include scripts for the include extension. This
 # is also where the ManageSieve service stores the user's scripts.
 cat > /etc/dovecot/conf.d/99-local-sieve.conf << EOF;
-plugin {
-  sieve_before = /etc/dovecot/sieve-spam.sieve
-  sieve_before2 = $STORAGE_ROOT/mail/sieve/global_before
-  sieve_after = $STORAGE_ROOT/mail/sieve/global_after
-  sieve = $STORAGE_ROOT/mail/sieve/%d/%n.sieve
-  sieve_dir = $STORAGE_ROOT/mail/sieve/%d/%n
-  sieve_redirect_envelope_from = recipient
-}
+sieve_before = /etc/dovecot/sieve-spam.sieve
+sieve_before2 = $STORAGE_ROOT/mail/sieve/global_before
+sieve_after = $STORAGE_ROOT/mail/sieve/global_after
+sieve = $STORAGE_ROOT/mail/sieve/%d/%n.sieve
+sieve_dir = $STORAGE_ROOT/mail/sieve/%d/%n
+sieve_redirect_envelope_from = recipient
 EOF
 
 # Copy the global sieve script into where we've told Dovecot to look for it. Then
