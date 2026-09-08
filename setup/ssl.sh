@@ -93,8 +93,8 @@ fi
 # Generate some Diffie-Hellman cipher bits.
 # openssl's default bit length for this is 1024 bits, but we'll create
 # 2048 bits of bits per the latest recommendations.
-if [ ! -f "$STORAGE_ROOT/ssl/dh2048.pem" ]; then
-	openssl dhparam -out "$STORAGE_ROOT/ssl/dh2048.pem" 2048
+if [ ! -f "$STORAGE_ROOT/ssl/dh4096.pem" ]; then
+	openssl dhparam -out "$STORAGE_ROOT/ssl/dh4096.pem" 4096
 fi
 
 # Cleanup expired SSL certificates from $STORAGE_ROOT/ssl daily
