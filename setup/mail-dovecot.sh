@@ -140,12 +140,8 @@ tools/editconf.py /etc/dovecot/conf.d/20-pop3.conf \
 #
 cat > /etc/dovecot/conf.d/99-local.conf << EOF;
 service lmtp {
-  #unix_listener /var/spool/postfix/private/dovecot-lmtp {
-  #  user = postfix
-  #  group = postfix
-  #}
   inet_listener lmtp {
-    address = 127.0.0.1
+    listen = 127.0.0.1
     port = 10026
   }
 }
@@ -154,7 +150,7 @@ service lmtp {
 # for Nextcloud to do imap authentication. (See #1577)
 service imap-login {
   inet_listener imap {
-    address = 127.0.0.1
+    listen = 127.0.0.1
     port = 143
   }
 }
