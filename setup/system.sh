@@ -246,7 +246,7 @@ dd if=/dev/random of=/dev/urandom bs=1 count=32 2> /dev/null
 # is really any good on virtualized systems, we'll also seed from Ubuntu's
 # pollinate servers, using the pollinate user:
 
-su pollinate /usr/bin/pollinate -q -r
+sudo -u pollinate /usr/bin/pollinate -q -r
 
 # Between these two, we really ought to be all set.
 
