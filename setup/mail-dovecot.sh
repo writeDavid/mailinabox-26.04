@@ -105,7 +105,7 @@ fi
 # The LOGIN mechanism is supposedly for Microsoft products like Outlook to do SMTP login (I guess
 # since we're using Dovecot to handle SMTP authentication?).
 tools/editconf.py /etc/dovecot/conf.d/10-auth.conf \
-	disable_plaintext_auth=yes \
+	auth_allow_cleartext=no \
 	"auth_mechanisms=plain login"
 
 # Enable SSL, specify the location of the SSL certificate and private key files.
