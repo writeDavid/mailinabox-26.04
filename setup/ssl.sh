@@ -28,7 +28,7 @@ source /etc/mailinabox.conf # load global vars
 if  [ ! -f /usr/bin/openssl ] \
  || [ ! -f "$STORAGE_ROOT/ssl/ssl_private_key.pem" ] \
  || [ ! -f "$STORAGE_ROOT/ssl/ssl_certificate.pem" ] \
- || [ ! -f "$STORAGE_ROOT/ssl/dh2048.pem" ]; then
+ || [ ! -f "$STORAGE_ROOT/ssl/dh4096.pem" ]; then
 	echo "Creating initial SSL certificate and perfect forward secrecy Diffie-Hellman parameters..."
 fi
 
