@@ -69,6 +69,7 @@ cp conf/dovecot-mailboxes.conf /etc/dovecot/conf.d/15-mailboxes.conf
 cp conf/dovecot-20-imap.conf /etc/dovecot/conf.d/20-imap.conf
 cp conf/dovecot-20-pop3.conf /etc/dovecot/conf.d/20-pop3.conf
 cp conf/dovecot-20-lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
+cp conf/dovecot-90-quota.conf /etc/dovecot/conf.d/90-quota.conf
 cp conf/dovecot-99-local-sieve.conf /etc/dovecot/conf.d/99-local-sieve.conf
 
 # Set the location where we'll store user mailboxes. '%{user|domain}' is the domain name and '%{user|username}' is the
@@ -76,27 +77,6 @@ cp conf/dovecot-99-local-sieve.conf /etc/dovecot/conf.d/99-local-sieve.conf
 # are created within the management daemon.
 tools/editconf.py /etc/dovecot/conf.d/10-mail.conf \
     mail_path="$STORAGE_ROOT/mail/mailboxes/%{user|domain}/%{user|username}"
-
-# configure stuff for quota support
-if ! grep -q "quota_status_success = OK" /etc/dovecot/conf.d/90-quota.conf; then
-    cat > /etc/dovecot/conf.d/90-quota.conf << EOF;
-
-quota maildir {
-    quota_storage_grace = 100M
-}
-
-service quota-status {
-    quota_status_success = OK
-    quota_status_nouser = "REJECT Unknown user"
-    quota_status_overquota = "522 5.2.2 Mailbox is full"
-    
-    executable = quota-status -p postfix
-    inet_listener quota-status {
-        port = 12340
-    }
-}
-EOF
-fi
 
 # ### IMAP/POP
 
