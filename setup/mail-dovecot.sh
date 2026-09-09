@@ -69,6 +69,7 @@ cp conf/dovecot-mailboxes.conf /etc/dovecot/conf.d/15-mailboxes.conf
 cp conf/dovecot-20-imap.conf /etc/dovecot/conf.d/20-imap.conf
 cp conf/dovecot-20-pop3.conf /etc/dovecot/conf.d/20-pop3.conf
 cp conf/dovecot-20-lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
+cp conf/dovecot-99-local-sieve.conf /etc/dovecot/conf.d/99-local-sieve.conf
 
 # Set the location where we'll store user mailboxes. '%{user|domain}' is the domain name and '%{user|username}' is the
 # username part of the user's email address. We'll ensure that no bad domains or email addresses
@@ -154,37 +155,6 @@ EOF
 # will be created automatically by our management daemon.
 tools/editconf.py /etc/dovecot/conf.d/15-lda.conf \
 	"postmaster_address=postmaster@$PRIMARY_HOSTNAME"
-
-# ### Sieve
-#
-# Documentation can be referenced via dovecot Documentation Site
-# https://doc.dovecot.org/2.4.5/core/config/sieve/overview.html
-#
-# Extensive reworks were needed, to get the codebase to conform to modern dovecot
-#
-cat > /etc/dovecot/conf.d/99-local-sieve.conf << EOF;
-sieve_plugins {
-    sieve_imapsieve = yes
-}
-sieve_script spam-global {
-    type = before
-    path = /etc/dovecot/sieve-spam.sieve
-}
-sieve_script spam-global-before {
-    type = before
-    path = $STORAGE_ROOT/mail/sieve/global_before
-}
-sieve_script spam-global-after {
-    type = after
-    path = $STORAGE_ROOT/mail/sieve/global_after
-}
-sieve_script personal {
-    type = personal
-    path = $STORAGE_ROOT/mail/sieve/%{user | domain }/%{user | username }
-    active_path = $STORAGE_ROOT/mail/sieve/%{user | domain }/%{user | username }.sieve
-    sieve_redirect_envelope_from = recipient
-}
-EOF
 
 # Copy the global sieve script into where we've told Dovecot to look for it. Then
 # compile it. Global scripts must be compiled now because Dovecot won't have
