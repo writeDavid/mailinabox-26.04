@@ -47,8 +47,8 @@ echo "public.pyzor.org:24441" > /etc/spamassassin/pyzor/servers
 #   is Spamassassin (spamc)'s own default. Specified in KBytes.
 # * Disable localmode so Pyzor, DKIM and DNS checks can be used.
 tools/editconf.py /etc/spampd.cfg \
-	"maxsize       2000" \
-	"local-only    0"
+	maxsize=2000 \
+	local-only=0
 
 # Spamassassin normally wraps spam as an attachment inside a fresh
 # email with a report about the message. This also protects the user
