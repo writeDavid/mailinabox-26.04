@@ -66,7 +66,6 @@ tools/editconf.py /etc/spamassassin/local.cf -s \
 	"add_header all Report"=_REPORT_ \
 	"add_header all Score"=_SCORE_
 
-
 # Authentication-Results SPF/Dmarc checks
 # ---------------------------------------
 # OpenDKIM and OpenDMARC are configured to validate and add "Authentication-Results: ..."
@@ -123,8 +122,7 @@ EOF
 # configured. We'll store the learning data in our storage area.
 #
 # These files must be:
-#
-# * Writable by sa-learn-pipe script below, which run as the 'mail' user, for manual tagging of mail as spam/ham.
+# * The imap-sieve Dovecot Plugin, when users move messages in or out of the Spam folder. (TBD)
 # * Readable by the spampd process ('spampd' user) during mail filtering.
 # * Writable by the debian-spamd user, which runs /etc/cron.daily/spamassassin.
 #
@@ -140,40 +138,11 @@ tools/editconf.py /etc/spamassassin/local.cf -s \
 mkdir -p "$STORAGE_ROOT/mail/spamassassin"
 chown -R spampd:spampd "$STORAGE_ROOT/mail/spamassassin"
 
-# To mark mail as spam or ham, just drag it in or out of the Spam folder. We'll
-# use the Dovecot antispam plugin to detect the message move operation and execute
-# a shell script that invokes learning.
-
-# Configure the antispam plugin to call sa-learn-pipe.sh.
-cat > /etc/dovecot/conf.d/99-local-spampd.conf << EOF;
-plugin {
-    antispam_backend = pipe
-    antispam_spam_pattern_ignorecase = SPAM
-    antispam_trash_pattern_ignorecase = trash;Deleted *
-    antispam_allow_append_to_spam = yes
-    antispam_pipe_program_spam_args = /usr/local/bin/sa-learn-pipe.sh;--spam
-    antispam_pipe_program_notspam_args = /usr/local/bin/sa-learn-pipe.sh;--ham
-    antispam_pipe_program = /bin/bash
-}
-EOF
-
 # Have Dovecot run its mail process with a supplementary group (the spampd group)
 # so that it can access the learning files.
 
 tools/editconf.py /etc/dovecot/conf.d/10-mail.conf \
 	mail_access_groups=spampd
-
-# Here's the script that the antispam plugin executes. It spools the message into
-# a temporary file and then runs sa-learn on it.
-# from http://wiki2.dovecot.org/Plugins/Antispam
-rm -f /usr/bin/sa-learn-pipe.sh # legacy location #NODOC
-cat > /usr/local/bin/sa-learn-pipe.sh << EOF;
-cat<&0 >> /tmp/sendmail-msg-\$\$.txt
-/usr/bin/sa-learn \$* /tmp/sendmail-msg-\$\$.txt > /dev/null
-rm -f /tmp/sendmail-msg-\$\$.txt
-exit 0
-EOF
-chmod a+x /usr/local/bin/sa-learn-pipe.sh
 
 # Create empty bayes training data (if it doesn't exist). Once the files exist,
 # ensure they are group-writable so that the Dovecot process has access.
@@ -181,11 +150,6 @@ sudo -u spampd /usr/bin/sa-learn --sync 2>/dev/null
 chmod -R 660 "$STORAGE_ROOT/mail/spamassassin"
 chmod 770 "$STORAGE_ROOT/mail/spamassassin"
 
-# Initial training?
-# sa-learn --ham storage/mail/mailboxes/*/*/cur/
-# sa-learn --spam storage/mail/mailboxes/*/*/.Spam/cur/
-
 # Kick services.
 restart_service spampd
 restart_service dovecot
-
