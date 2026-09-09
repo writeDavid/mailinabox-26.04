@@ -67,6 +67,7 @@ hide_output sysctl --system
 cp conf/dovecot-10-mail.conf /etc/dovecot/conf.d/10-mail.conf
 cp conf/dovecot-mailboxes.conf /etc/dovecot/conf.d/15-mailboxes.conf
 cp conf/dovecot-20-imap.conf /etc/dovecot/conf.d/20-imap.conf
+cp conf/dovecot-20-pop3.conf /etc/dovecot/conf.d/20-pop3.conf
 cp conf/dovecot-20-lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
 
 # Set the location where we'll store user mailboxes. '%{user|domain}' is the domain name and '%{user|username}' is the
@@ -121,13 +122,6 @@ tools/editconf.py /etc/dovecot/conf.d/10-ssl.conf \
 # are made available (IMAPS on port 993; POP3S on port 995).
 sed -i "s/#port = 143/port = 0/" /etc/dovecot/conf.d/10-master.conf
 sed -i "s/#port = 110/port = 0/" /etc/dovecot/conf.d/10-master.conf
-
-# Set POP3 UIDL.
-# UIDLs are used by POP3 clients to keep track of what messages they've downloaded.
-# For new POP3 servers, the easiest way to set up UIDLs is to use IMAP's UIDVALIDITY
-# and UID values, the default in Dovecot.
-tools/editconf.py /etc/dovecot/conf.d/20-pop3.conf \
-	"pop3_uidl_format = %{uid | hex(8)}%{uidvalidity | hex(8)}"
 
 # ### LDA (LMTP)
 
