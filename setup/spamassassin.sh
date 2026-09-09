@@ -138,6 +138,20 @@ tools/editconf.py /etc/spamassassin/local.cf -s \
 mkdir -p "$STORAGE_ROOT/mail/spamassassin"
 chown -R spampd:spampd "$STORAGE_ROOT/mail/spamassassin"
 
+# Install the IMAPSieve sieve scripts and sa-learn shell wrappers
+# original author: yeah
+#
+mkdir -p /usr/lib/dovecot/sieve
+cp -f conf/sieve-report-spam.sieve /usr/lib/dovecot/sieve/report-spam.sieve
+cp -f conf/sieve-report-ham.sieve /usr/lib/dovecot/sieve/report-ham.sieve
+sievec /usr/lib/dovecot/sieve/report-spam.sieve
+sievec /usr/lib/dovecot/sieve/report-ham.sieve
+
+cp -f conf/sa-learn-spam.sh /usr/lib/dovecot/sieve/sa-learn-spam.sh
+cp -f conf/sa-learn-ham.sh /usr/lib/dovecot/sieve/sa-learn-ham.sh
+chmod +x /usr/lib/dovecot/sieve/sa-learn-spam.sh
+chmod +x /usr/lib/dovecot/sieve/sa-learn-ham.sh
+
 # Have Dovecot run its mail process with a supplementary group (the spampd group)
 # so that it can access the learning files.
 
