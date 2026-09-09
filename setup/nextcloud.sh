@@ -247,7 +247,6 @@ if [ ! -d /usr/local/lib/owncloud/ ] || [[ ! ${CURRENT_NEXTCLOUD_VER} =~ ^$nextc
 			InstallNextcloud 27.1.11 9f30c01a021c2e5a9e7baff119955afb3c552ebc 5.5.4 c4e3f2183a0088b829f8aa1b3af1f87c9a4c46a2 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
 			CURRENT_NEXTCLOUD_VER="27.1.11"
 		fi
-        ## TBD means I still need to grab the sha1 for each
         if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^27 ]]; then
 			InstallNextcloud 28.0.14 8a9edcfd26d318eb7d1cfa44d69796f2d1098a80 5.5.4 c4e3f2183a0088b829f8aa1b3af1f87c9a4c46a2 4.7.20 12d876904e227156e39ca4335b18481b42a6d00f 3.4.0 7f9d8f4dd6adb85a0e3d7622d85eeb7bfe53f3b4
 			CURRENT_NEXTCLOUD_VER="28.0.14"
@@ -350,7 +349,7 @@ fi
 # * mail_domain' needs to be set every time we run the setup. Making sure we are setting
 #   the correct domain name if the domain is being change from the previous setup.
 # Use PHP to read the settings file, modify it, and write out the new settings array.
-TIMEZONE=$(cat /etc/timezone)
+TIMEZONE=$(timedatectl show -p Timezone --value)
 CONFIG_TEMP=$(/bin/mktemp)
 php"$PHP_VER" <<EOF > "$CONFIG_TEMP" && mv "$CONFIG_TEMP" "$STORAGE_ROOT/owncloud/config.php";
 <?php
