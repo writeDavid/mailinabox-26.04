@@ -64,13 +64,13 @@ hide_output sysctl --system
 
 
 # Copy in preconfigured dovecot configuration files
-cp conf/dovecot-10-mail.conf /etc/dovecot/conf.d/10-mail.conf
-cp conf/dovecot-mailboxes.conf /etc/dovecot/conf.d/15-mailboxes.conf
-cp conf/dovecot-20-imap.conf /etc/dovecot/conf.d/20-imap.conf
-cp conf/dovecot-20-pop3.conf /etc/dovecot/conf.d/20-pop3.conf
-cp conf/dovecot-20-lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
-cp conf/dovecot-90-quota.conf /etc/dovecot/conf.d/90-quota.conf
-cp conf/dovecot-99-local-sieve.conf /etc/dovecot/conf.d/99-local-sieve.conf
+cp -f conf/dovecot-10-mail.conf /etc/dovecot/conf.d/10-mail.conf
+cp -f conf/dovecot-mailboxes.conf /etc/dovecot/conf.d/15-mailboxes.conf
+cp -f conf/dovecot-20-imap.conf /etc/dovecot/conf.d/20-imap.conf
+cp -f conf/dovecot-20-pop3.conf /etc/dovecot/conf.d/20-pop3.conf
+cp -f conf/dovecot-20-lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
+cp -f conf/dovecot-90-quota.conf /etc/dovecot/conf.d/90-quota.conf
+cp -f conf/dovecot-99-local-sieve.conf /etc/dovecot/conf.d/99-local-sieve.conf
 
 # Set the location where we'll store user mailboxes. '%{user|domain}' is the domain name and '%{user|username}' is the
 # username part of the user's email address. We'll ensure that no bad domains or email addresses
