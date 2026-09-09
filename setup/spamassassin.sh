@@ -46,10 +46,9 @@ echo "public.pyzor.org:24441" > /etc/spamassassin/pyzor/servers
 # * Increase the maximum message size of scanned messages from the default of 64KB to 500KB, which
 #   is Spamassassin (spamc)'s own default. Specified in KBytes.
 # * Disable localmode so Pyzor, DKIM and DNS checks can be used.
-tools/editconf.py /etc/default/spampd \
-	DESTPORT=10026 \
+tools/editconf.py /etc/spampd.cfg \
 	ADDOPTS="\"--maxsize=2000\"" \
-	LOCALONLY=0
+	LOCAL-ONLY=0
 
 # Spamassassin normally wraps spam as an attachment inside a fresh
 # email with a report about the message. This also protects the user
