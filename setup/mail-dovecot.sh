@@ -162,24 +162,16 @@ tools/editconf.py /etc/dovecot/conf.d/15-lda.conf \
 	"postmaster_address=postmaster@$PRIMARY_HOSTNAME"
 
 # ### Sieve
-# Configure sieve. We'll create a global script that moves mail marked
-# as spam by Spamassassin into the user's Spam folder.
 #
-# * `sieve_before`: The path to our global sieve which handles moving spam to the Spam folder.
+# Documentation can be referenced via dovecot Documentation Site
+# https://doc.dovecot.org/2.4.5/core/config/sieve/overview.html
 #
-# * `sieve_before2`: The path to our global sieve directory for sieve which can contain .sieve files
-# to run globally for every user before their own sieve files run.
+# Extensive reworks were needed, to get the codebase to conform to modern dovecot
 #
-# * `sieve_after`: The path to our global sieve directory which can contain .sieve files
-# to run globally for every user after their own sieve files run.
-#
-# * `sieve`: The path to the user's main active script. ManageSieve will create a symbolic
-# link here to the actual sieve script. It should not be in the mailbox directory
-# (because then it might appear as a folder) and it should not be in the sieve_dir
-# (because then I suppose it might appear to the user as one of their scripts).
-# * `sieve_dir`: Directory for :personal include scripts for the include extension. This
-# is also where the ManageSieve service stores the user's scripts.
 cat > /etc/dovecot/conf.d/99-local-sieve.conf << EOF;
+sieve_plugins {
+    sieve_imapsieve = yes
+}
 sieve_script spam-global {
     type = before
     path = /etc/dovecot/sieve-spam.sieve
