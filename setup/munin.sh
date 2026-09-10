@@ -67,7 +67,7 @@ chmod 0744 /usr/local/lib/mailinabox/munin_start.sh
 cp --remove-destination conf/munin.service /lib/systemd/system/munin.service # target was previously a symlink so remove first
 # hide_output systemctl link -f /lib/systemd/system/munin.service
 # hide_output systemctl unmask munin.service
-hide_output systemctl enable munin.service
+hide_output systemctl enable /lib/systemd/system/munin.service
 hide_output systemctl daemon-reload
 
 # Restart services.
