@@ -6,6 +6,7 @@
 set -euo pipefail
 
 PHP_VER=8.5
+PHP_LEGACY_VER=8.3
 
 function hide_output {
 	# This function hides the output of a command unless the command fails
