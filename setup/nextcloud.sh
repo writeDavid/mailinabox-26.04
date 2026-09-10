@@ -138,23 +138,57 @@ InstallNextcloud() {
 	if [ -e "$STORAGE_ROOT/owncloud/owncloud.db" ]; then
 		# ownCloud 8.1.1 broke upgrades. It may fail on the first attempt, but
 		# that can be OK.
-		sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ upgrade
-		E=$?
-		if [ $E -ne 0 ] && [ $E -ne 3 ]; then
-			echo "Trying ownCloud upgrade again to work around ownCloud upgrade bug..."
-			sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ upgrade
-			E=$?
-			if [ $E -ne 0 ] && [ $E -ne 3 ]; then exit 1; fi
-			sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ maintenance:mode --off
-			echo "...which seemed to work."
-		fi
+		if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^2[6789] ] || [ ${CURRENT_NEXTCLOUD_VER} =~ ^3[012] ]]; then
+            #
+            # Upgrade using 8.2
+            #
+            echo "Installing Legacy PHP version for Nextcloud upgrade..."
 
-		# Add missing indices. NextCloud didn't include this in the normal upgrade because it might take some time.
-		sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ db:add-missing-indices
-		sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ db:add-missing-primary-keys
+            apt_install php"${PHP_LEGACY_VER}" php"${PHP_LEGACY_VER}"-fpm \
+	            php"${PHP_LEGACY_VER}"-cli php"${PHP_LEGACY_VER}"-sqlite3 php"${PHP_LEGACY_VER}"-gd php"${PHP_LEGACY_VER}"-imap php"${PHP_LEGACY_VER}"-curl \
+	            php"${PHP_LEGACY_VER}"-dev php"${PHP_LEGACY_VER}"-gd php"${PHP_LEGACY_VER}"-xml php"${PHP_LEGACY_VER}"-mbstring php"${PHP_LEGACY_VER}"-zip php"${PHP_LEGACY_VER}"-apcu \
+	            php"${PHP_LEGACY_VER}"-intl php"${PHP_LEGACY_VER}"-imagick php"${PHP_LEGACY_VER}"-gmp php"${PHP_LEGACY_VER}"-bcmath
 
-		# Run conversion to BigInt identifiers, this process may take some time on large tables.
-		sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ db:convert-filecache-bigint --no-interaction
+            sudo -u www-data php"$PHP_LEGACY_VER" /usr/local/lib/owncloud/occ upgrade
+    		E=$?
+    		if [ $E -ne 0 ] && [ $E -ne 3 ]; then
+    			echo "Trying ownCloud upgrade again to work around ownCloud upgrade bug..."
+    			sudo -u www-data php"$PHP_LEGACY_VER" /usr/local/lib/owncloud/occ upgrade
+    			E=$?
+    			if [ $E -ne 0 ] && [ $E -ne 3 ]; then exit 1; fi
+    			sudo -u www-data php"$PHP_LEGACY_VER" /usr/local/lib/owncloud/occ maintenance:mode --off
+    			echo "...which seemed to work."
+    		fi
+    
+    		# Add missing indices. NextCloud didn't include this in the normal upgrade because it might take some time.
+    		sudo -u www-data php"$PHP_LEGACY_VER" /usr/local/lib/owncloud/occ db:add-missing-indices
+    		sudo -u www-data php"$PHP_LEGACY_VER" /usr/local/lib/owncloud/occ db:add-missing-primary-keys
+    
+    		# Run conversion to BigInt identifiers, this process may take some time on large tables.
+    		sudo -u www-data php"$PHP_LEGACY_VER" /usr/local/lib/owncloud/occ db:convert-filecache-bigint --no-interaction
+        
+        else
+            #
+            # Upgrade using 8.5
+            #
+            sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ upgrade
+    		E=$?
+    		if [ $E -ne 0 ] && [ $E -ne 3 ]; then
+    			echo "Trying ownCloud upgrade again to work around ownCloud upgrade bug..."
+    			sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ upgrade
+    			E=$?
+    			if [ $E -ne 0 ] && [ $E -ne 3 ]; then exit 1; fi
+    			sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ maintenance:mode --off
+    			echo "...which seemed to work."
+    		fi
+    
+    		# Add missing indices. NextCloud didn't include this in the normal upgrade because it might take some time.
+    		sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ db:add-missing-indices
+    		sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ db:add-missing-primary-keys
+    
+    		# Run conversion to BigInt identifiers, this process may take some time on large tables.
+    		sudo -u www-data php"$PHP_VER" /usr/local/lib/owncloud/occ db:convert-filecache-bigint --no-interaction
+        fi
 	fi
 }
 
