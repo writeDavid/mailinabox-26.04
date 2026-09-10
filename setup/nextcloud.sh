@@ -149,6 +149,10 @@ InstallNextcloud() {
 	            php"${PHP_LEGACY_VER}"-dev php"${PHP_LEGACY_VER}"-gd php"${PHP_LEGACY_VER}"-xml php"${PHP_LEGACY_VER}"-mbstring php"${PHP_LEGACY_VER}"-zip php"${PHP_LEGACY_VER}"-apcu \
 	            php"${PHP_LEGACY_VER}"-intl php"${PHP_LEGACY_VER}"-imagick php"${PHP_LEGACY_VER}"-gmp php"${PHP_LEGACY_VER}"-bcmath
 
+            tools/editconf.py /etc/php/"$PHP_LEGACY_VER"/mods-available/apcu.ini -c ';' \
+	            apc.enabled=1 \
+	            apc.enable_cli=1
+            
             sudo -u www-data php"$PHP_LEGACY_VER" /usr/local/lib/owncloud/occ upgrade
     		E=$?
     		if [ $E -ne 0 ] && [ $E -ne 3 ]; then
