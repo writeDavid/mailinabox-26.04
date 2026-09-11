@@ -532,7 +532,8 @@ EOF
 # ```
 
 # Cleanup Legacy PHP Version
-apt-get purge "php8.2*"
+echo "Cleaning up legacy php version"
+hide_output apt-get purge "php8.2*"
 rm -rf /etc/php/"$PHP_LEGACY_VER"
 
 # Enable PHP modules and restart PHP.
