@@ -138,9 +138,9 @@ InstallNextcloud() {
 	if [ -e "$STORAGE_ROOT/owncloud/owncloud.db" ]; then
 		# ownCloud 8.1.1 broke upgrades. It may fail on the first attempt, but
 		# that can be OK.
-		if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^2[6789] ] || [ ${CURRENT_NEXTCLOUD_VER} =~ ^3[012] ]]; then
+		if [[ ${CURRENT_NEXTCLOUD_VER} =~ ^2[6789] || ${CURRENT_NEXTCLOUD_VER} =~ ^3[01] ]]; then
             #
-            # Upgrade using 8.2
+            # Upgrade using 8.2 for version up to 32. The install for 33 technically has the Nextcloud verion as 32, hence why we are ommitting it, so it switches to php8.5
             #
             echo "Installing Legacy PHP version for Nextcloud upgrade..."
 
