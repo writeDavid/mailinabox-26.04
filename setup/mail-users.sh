@@ -39,7 +39,7 @@ sql_driver = sqlite
 sqlite_path=$STORAGE_ROOT/mail/users.sqlite
 
 passdb sql {
-  query = SELECT email as user, password FROM users WHERE email='%{user | username | lower}';
+  query = SELECT email as user, password FROM users WHERE email='%{user}';
   default_password_scheme = SHA512-CRYPT
 }
 userdb sql {
