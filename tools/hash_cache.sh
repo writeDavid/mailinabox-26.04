@@ -4,15 +4,22 @@
 ##########################
 
 source setup/functions.sh # load our functions
-source /etc/mailinabox.conf # load global vars
+## source /etc/mailinabox.conf # load global vars
 
 ## Nextcloud
-nextcloud_ver=27.1.11
-nextcloud_hash=9f30c01a021c2e5a9e7baff119955afb3c552ebc
+# Currently 14 versions
+nextcloud_version = ["21.0.7", "22.2.6", "23.0.12", "24.0.12", "25.0.7", "26.0.13", "27.1.11", "28.0.14", "29.0.16", "30.0.17", "31.0.14", "32.0.10", "33.0.7", "34.0.3"]
+nextcloud_hash_sha1 = ["ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff"]
+nextcloud_hash_sha256 = ["ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff", "ff"]
+
+for index, version in enumerate(nextcloud_version):
+    wget_verify "https://download.nextcloud.com/server/releases/nextcloud-{version}.zip" nextcloud_hash_sha1(index) /tmp/nextcloud.zip
+    rm -f /tmp/nextcloud.zip
+
 
 # Always ensure the versions are supported, see https://apps.nextcloud.com/apps/contacts
 contacts_ver=5.5.4
-contacts_hash=c4e3f2183a0088b829f8aa1b3af1f87c9a4c46a2
+contacts_hash=c4e3f2183a0066b829f8aa1b3af1f87c9a4c46a2
 
 # Always ensure the versions are supported, see https://apps.nextcloud.com/apps/calendar
 calendar_ver=4.7.20
